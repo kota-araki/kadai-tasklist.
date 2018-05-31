@@ -30,8 +30,7 @@ class TasksController extends Controller
     }
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
+     *Illuminate\Http\Response
      */
     public function create()
     {
@@ -51,7 +50,14 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
+         $this->validate($request, [
+            'status' => 'required|max:10',
+             'content' => 'required|max:10',         ]); 
+ 
+ 
+ 
         $task = new Task;
+         $task->status = $request->status; 
         $task->content = $request->content;
         $task->save();
 
@@ -74,9 +80,9 @@ class TasksController extends Controller
      */
     public function edit($id)
     {
-      $task = Tawk::find($id);
+      $task = Task::find($id);
 
-        return view('task.edit', [
+        return view('tasks.edit', [
             'task' => $task,
         ]);  //
     }
@@ -90,7 +96,14 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+      $this->validate($request, [     
+          'status' => 'required|max:191', 
+          'content' => 'required|max:191',   
+          ]); 
+ 
+
       $task = Task::find($id);
+       $task->status = $request->status; 
         $task->content = $request->content;
         $task->save();
 
